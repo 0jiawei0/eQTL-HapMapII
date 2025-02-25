@@ -1,0 +1,751 @@
+{
+  "gsym": ["TRIM48"],
+  "gid": [79097],
+  "dtype": [
+    [
+      {
+        "GE": 1,
+        "IG.CEU": 1,
+        "IG.YRI": 1,
+        "IG.CHB": 1,
+        "IG.JPT": 1
+      }
+    ]
+  ],
+  "Sgene": [
+    [
+      {
+        "Sgsym": "ATP1A1",
+        "Sgid": 476,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "C6orf98",
+        "Sgid": 387079,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "CCDC92",
+        "Sgid": 80212,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "CLSTN3",
+        "Sgid": 9746,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "COPZ2",
+        "Sgid": 51226,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "KIAA1303",
+        "Sgid": 57521,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "LOC441800",
+        "Sgid": 441800,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "LRRC8E",
+        "Sgid": 80131,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "MRPS25",
+        "Sgid": 64432,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "NLRP4",
+        "Sgid": 147945,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "OLFML3",
+        "Sgid": 56944,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "POLE",
+        "Sgid": 5426,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "RBM5",
+        "Sgid": 10181,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "SEPT2",
+        "Sgid": 4735,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Sgsym": "SLC27A6",
+        "Sgid": 28965,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "VSTM3",
+        "Sgid": 201633,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Sgsym": "ZNF664",
+        "Sgid": 144348,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      }
+    ]
+  ],
+  "Tgene": [
+    [
+      {
+        "Tgsym": "AASS",
+        "Tgid": 10157,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ACOT11",
+        "Tgid": 26027,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "AGER",
+        "Tgid": 177,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "AKAP13",
+        "Tgid": 11214,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ANKFY1",
+        "Tgid": 51479,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ANKRD46",
+        "Tgid": 157567,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "AP1GBP1",
+        "Tgid": 11276,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "APOBEC3A",
+        "Tgid": 200315,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ARID4A",
+        "Tgid": 5926,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "BMP2K",
+        "Tgid": 55589,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "BRD4",
+        "Tgid": 23476,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Tgsym": "BRWD1",
+        "Tgid": 54014,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "C11orf46",
+        "Tgid": 120534,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "C19orf51",
+        "Tgid": 352909,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "C3orf31",
+        "Tgid": 132001,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CATSPER2",
+        "Tgid": 117155,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CAV2",
+        "Tgid": 858,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Tgsym": "CCNY",
+        "Tgid": 219771,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CDK10",
+        "Tgid": 8558,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CDK2",
+        "Tgid": 1017,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CDK5RAP1",
+        "Tgid": 51654,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CDK8",
+        "Tgid": 1024,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CEP135",
+        "Tgid": 9662,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CMPK",
+        "Tgid": 51727,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "CNR1",
+        "Tgid": 1268,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "DDHD1",
+        "Tgid": 80821,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "DEFB129",
+        "Tgid": 140881,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "DST",
+        "Tgid": 667,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "EDARADD",
+        "Tgid": 128178,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "EXDL1",
+        "Tgid": 161829,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "EXOC6B",
+        "Tgid": 23233,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "FHOD3",
+        "Tgid": 80206,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "GFM1",
+        "Tgid": 85476,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "HBS1L",
+        "Tgid": 10767,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "HIST2H2AA3",
+        "Tgid": 8337,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "HIST2H2AC",
+        "Tgid": 8338,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "HOMEZ",
+        "Tgid": 57594,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "HSD17B13",
+        "Tgid": 345275,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "IL16",
+        "Tgid": 3603,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ITGA5",
+        "Tgid": 3678,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ITPKC",
+        "Tgid": 80271,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ITPR1",
+        "Tgid": 3708,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "KIAA0984",
+        "Tgid": 23329,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "LIPT1",
+        "Tgid": 51601,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "LOC388335",
+        "Tgid": 388335,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "MATN3",
+        "Tgid": 4148,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "MRPL47",
+        "Tgid": 57129,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "NINJ2",
+        "Tgid": 4815,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Tgsym": "NOL6",
+        "Tgid": 65083,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Tgsym": "NSUN5",
+        "Tgid": 55695,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "OVGP1",
+        "Tgid": 5016,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PLEKHF2",
+        "Tgid": 79666,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PLTP",
+        "Tgid": 5360,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "POLK",
+        "Tgid": 51426,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PPIL3",
+        "Tgid": 53938,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PPP1R13B",
+        "Tgid": 23368,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PRMT1",
+        "Tgid": 3276,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PSME4",
+        "Tgid": 23198,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "PTPN6",
+        "Tgid": 5777,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "RAB5C",
+        "Tgid": 5878,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "RALGPS1",
+        "Tgid": 9649,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "RNF208",
+        "Tgid": 727800,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "RPP30",
+        "Tgid": 10556,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 1
+      },
+      {
+        "Tgsym": "RSU1",
+        "Tgid": 6251,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "SERF1A",
+        "Tgid": 8293,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "SMG1",
+        "Tgid": 23049,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "SRGAP3",
+        "Tgid": 9901,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "SRPK2",
+        "Tgid": 6733,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "STK17A",
+        "Tgid": 9263,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "TMEM117",
+        "Tgid": 84216,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "TXNDC15",
+        "Tgid": 79770,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "VPREB3",
+        "Tgid": 29802,
+        "CEU": 1,
+        "CHB": 0,
+        "JPT": 0,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "WSCD1",
+        "Tgid": 23302,
+        "CEU": 0,
+        "CHB": 0,
+        "JPT": 1,
+        "YRI": 0
+      },
+      {
+        "Tgsym": "ZNF345",
+        "Tgid": 25850,
+        "CEU": 0,
+        "CHB": 1,
+        "JPT": 0,
+        "YRI": 0
+      }
+    ]
+  ]
+}
