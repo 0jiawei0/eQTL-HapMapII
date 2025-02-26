@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gene-based eQTL Search</title>
+    <title>SNP-based eQTL Search</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -20,7 +20,7 @@
             margin: 20px 0;
         }
 
-        #geneSymbol {
+        #rsNumber {
             padding: 8px;
             width: 300px;
             font-size: 16px;
@@ -56,7 +56,7 @@
             display: none;
         }
 
-        .gene-header {
+        .rs-header {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -125,12 +125,12 @@
 </head>
 
 <body>
-    <h1>Gene-based eQTL Search</h1>
-    <p>Enter a gene symbol to search for its information.</p>
+    <h1>SNP-based eQTL Search</h1>
+    <p>Enter an RS number to search for its information.</p>
 
     <div class="search-container">
-        <input type="text" id="geneSymbol" placeholder="Enter gene symbol (e.g., 2'-PDE)">
-        <button onclick="searchGene()">Search</button>
+        <input type="text" id="rsNumber" placeholder="Enter RS number (e.g., rs74)">
+        <button onclick="searchRS()">Search</button>
     </div>
 
     <div id="loading" class="loading">
@@ -138,35 +138,15 @@
     </div>
 
     <div id="error" class="error">
-        <p>No information found for this gene symbol.</p>
+        <p>No information found for this RS number.</p>
     </div>
 
     <div id="results">
-        <div class="gene-header">Gene: <span id="geneTitle"></span> (<span id="geneID"></span>)</div>
+        <div class="rs-header" id="rsHeader"></div>
 
         <div class="availability" id="availability">
             <!-- Data availability will be dynamically added here -->
         </div>
-
-        <details id="sgeneDetails">
-            <summary>S-gene Information (<span id="sgeneCount">0</span> genes)</summary>
-            <div class="scroll-table">
-                <table id="sgeneTable">
-                    <thead>
-                        <tr>
-                            <th>S-gene</th>
-                            <th>CEU</th>
-                            <th>CHB</th>
-                            <th>JPT</th>
-                            <th>YRI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Sgene data will be dynamically added here -->
-                    </tbody>
-                </table>
-            </div>
-        </details>
 
         <details id="tgeneDetails">
             <summary>T-gene Information (<span id="tgeneCount">0</span> genes)</summary>
@@ -174,7 +154,7 @@
                 <table id="tgeneTable">
                     <thead>
                         <tr>
-                            <th>T-gene</th>
+                            <th>Tgsym</th>
                             <th>CEU</th>
                             <th>CHB</th>
                             <th>JPT</th>
@@ -190,12 +170,17 @@
     </div>
 
     <script>
-        function searchGene() {
-            const geneSymbol = document.getElementById('geneSymbol').value.trim();
+        async function searchRS() {
+            let rsInput = document.getElementById('rsNumber').value.trim();
 
-            if (!geneSymbol) {
-                alert('Please enter a gene symbol.');
+            if (!rsInput) {
+                alert('Please enter an RS number.');
                 return;
+            }
+
+            // Make sure the input has the 'rs' prefix
+            if (!rsInput.toLowerCase().startsWith('rs')) {
+                rsInput = 'rs' + rsInput;
             }
 
             // Show loading, hide results and error
@@ -203,94 +188,82 @@
             document.getElementById('results').style.display = 'none';
             document.getElementById('error').style.display = 'none';
 
-            // Construct the URL
-            const url = `https://raw.githubusercontent.com/0jiawei0/eQTL-HapMapII/refs/heads/main/geQTL/${encodeURIComponent(geneSymbol)}.json`;
+            try {
+                // First fetch the index file
+                const indexResponse = await fetch('main/seQTL/index.json');
+                if (!indexResponse.ok) {
+                    throw new Error('Index file not found');
+                }
 
-            // Fetch the data
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Gene not found');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    displayData(data);
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('results').style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('error').style.display = 'block';
-                });
+                const indexData = await indexResponse.json();
+
+                // Find the RS entry in the index
+                const indexEntry = indexData.find(entry => entry.rsid.toLowerCase() === rsInput.toLowerCase());
+
+                if (!indexEntry) {
+                    throw new Error('RS number not found in index');
+                }
+
+                // Get the filename from the index entry
+                const fileName = indexEntry.fname;
+
+                // Now fetch the actual data file
+                const dataResponse = await fetch(`main/seQTL/${fileName}.json`);
+                if (!dataResponse.ok) {
+                    throw new Error('Data file not found');
+                }
+
+                const dataFile = await dataResponse.json();
+
+                // Find the specific RS entry in the data file
+                const rsEntry = dataFile.find(entry => entry.rsid.toLowerCase() === rsInput.toLowerCase());
+
+                if (!rsEntry) {
+                    throw new Error('RS number not found in data file');
+                }
+
+                displayData(rsEntry);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+            }
         }
 
         function displayData(data) {
-            // Set gene title and ID
-            document.getElementById('geneTitle').textContent = data.gsym[0];
-            document.getElementById('geneID').textContent = data.gid[0];
+            // Set RS header in format: rsid (chr:pos) on gsym (gid)
+            const rsHeader = `${data.rsid} (${data.chr}:${data.pos}) on ${data.gsym} (${data.gid})`;
+            document.getElementById('rsHeader').textContent = rsHeader;
 
             // Display data availability
             const availabilityDiv = document.getElementById('availability');
             availabilityDiv.innerHTML = '';
 
             // Extract dtype information
-            const dtypeData = data.dtype[0][0];
+            const dtypeData = data.dtype[0];
 
             // Define all possible data types
-            const dataTypes = [
-                { key: 'GE', display: 'GE' },
-                { key: 'IG.CEU', display: 'IG(CEU)' },
-                { key: 'IG.YRI', display: 'IG(YRI)' },
-                { key: 'IG.CHB', display: 'IG(CHB)' },
-                { key: 'IG.JPT', display: 'IG(JPT)' }
-            ];
+            const populations = ['CEU', 'YRI', 'CHB', 'JPT'];
 
             // Create availability indicators
-            dataTypes.forEach(type => {
-                const value = dtypeData[type.key] || 0;
+            populations.forEach(pop => {
+                const value = dtypeData[pop] === true || dtypeData[pop] === 1;
                 const availabilityItem = document.createElement('div');
                 availabilityItem.className = 'availability-item';
 
-                const icon = value === 1 ?
+                const icon = value ?
                     '<i class="fa fa-check check"></i>' :
                     '<i class="fa fa-times cross"></i>';
 
-                availabilityItem.innerHTML = `${type.display} ${icon}`;
+                availabilityItem.innerHTML = `${pop} ${icon}`;
                 availabilityDiv.appendChild(availabilityItem);
             });
 
-            // Process Sgene data
-            const sgeneData = data.Sgene[0];
-            const sgeneTableBody = document.getElementById('sgeneTable').getElementsByTagName('tbody')[0];
-            sgeneTableBody.innerHTML = '';
-
-            sgeneData.forEach(gene => {
-                const row = document.createElement('tr');
-
-                // Gene symbol with NCBI link
-                const symbolCell = document.createElement('td');
-                symbolCell.innerHTML = `<a href="https://www.ncbi.nlm.nih.gov/gene/${gene.Sgid}" target="_blank">${gene.Sgsym}</a>`;
-                row.appendChild(symbolCell);
-
-                // Population data cells
-                ['CEU', 'CHB', 'JPT', 'YRI'].forEach(pop => {
-                    const cell = document.createElement('td');
-                    if (gene[pop] === 1) {
-                        cell.innerHTML = '<i class="fa fa-check check"></i>';
-                    }
-                    row.appendChild(cell);
-                });
-
-                sgeneTableBody.appendChild(row);
-            });
-
-            // Update Sgene count
-            document.getElementById('sgeneCount').textContent = sgeneData.length;
-
             // Process Tgene data
-            const tgeneData = data.Tgene[0];
+            const tgeneData = data.Tgene || [];
             const tgeneTableBody = document.getElementById('tgeneTable').getElementsByTagName('tbody')[0];
             tgeneTableBody.innerHTML = '';
 
@@ -318,10 +291,6 @@
             document.getElementById('tgeneCount').textContent = tgeneData.length;
 
             // Open details if less than 10 items
-            if (sgeneData.length <= 10) {
-                document.getElementById('sgeneDetails').open = true;
-            }
-
             if (tgeneData.length <= 10) {
                 document.getElementById('tgeneDetails').open = true;
             }
