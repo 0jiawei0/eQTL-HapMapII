@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gene Information Search</title>
+    <title>Gene-based eQTL Search</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -125,7 +125,7 @@
 </head>
 
 <body>
-    <h1>Gene Information Search</h1>
+    <h1>Gene-based eQTL Search</h1>
     <p>Enter a gene symbol to search for its information.</p>
 
     <div class="search-container">
@@ -149,12 +149,12 @@
         </div>
 
         <details id="sgeneDetails">
-            <summary>Sgene Information (<span id="sgeneCount">0</span> genes)</summary>
+            <summary>S-gene Information (<span id="sgeneCount">0</span> genes)</summary>
             <div class="scroll-table">
                 <table id="sgeneTable">
                     <thead>
                         <tr>
-                            <th>Sgsym</th>
+                            <th>S-gene</th>
                             <th>CEU</th>
                             <th>CHB</th>
                             <th>JPT</th>
@@ -169,12 +169,12 @@
         </details>
 
         <details id="tgeneDetails">
-            <summary>Tgene Information (<span id="tgeneCount">0</span> genes)</summary>
+            <summary>T-gene Information (<span id="tgeneCount">0</span> genes)</summary>
             <div class="scroll-table">
                 <table id="tgeneTable">
                     <thead>
                         <tr>
-                            <th>Tgsym</th>
+                            <th>T-gene</th>
                             <th>CEU</th>
                             <th>CHB</th>
                             <th>JPT</th>
@@ -204,7 +204,7 @@
             document.getElementById('error').style.display = 'none';
 
             // Construct the URL
-            const url = `main/geqtl/${encodeURIComponent(geneSymbol)}.json`;
+            const url = `https://raw.githubusercontent.com/0jiawei0/eQTL-HapMapII/refs/heads/main/geQTL/${encodeURIComponent(geneSymbol)}.json`;
 
             // Fetch the data
             fetch(url)
