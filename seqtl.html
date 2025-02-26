@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS Number Information Search</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #rsNumber {
+            padding: 8px;
+            width: 300px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #results {
+            display: none;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .rs-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .check {
+            color: green;
+        }
+
+        .cross {
+            color: red;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .scroll-table {
+            max-height: 400px;
+            overflow-y: auto;
+            display: block;
+        }
+
+        details {
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .availability {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .availability-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>RS Number Information Search</h1>
+    <p>Enter an RS number to search for its information.</p>
+
+    <div class="search-container">
+        <input type="text" id="rsNumber" placeholder="Enter RS number (e.g., rs13343)">
+        <button onclick="searchRS()">Search</button>
+    </div>
+
+    <div id="loading" class="loading">
+        <p>Loading data...</p>
+    </div>
+
+    <div id="error" class="error">
+        <p>No information found for this RS number.</p>
+    </div>
+
+    <div id="results">
+        <div class="rs-header" id="rsHeader"></div>
+
+        <div class="availability" id="availability">
+            <!-- Data availability will be dynamically added here -->
+        </div>
+
+        <details id="tgeneDetails">
+            <summary>Tgene Information (<span id="tgeneCount">0</span> genes)</summary>
+            <div class="scroll-table">
+                <table id="tgeneTable">
+                    <thead>
+                        <tr>
+                            <th>Tgsym</th>
+                            <th>CEU</th>
+                            <th>CHB</th>
+                            <th>JPT</th>
+                            <th>YRI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Tgene data will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </details>
+    </div>
+
+    <script>
+        function searchRS() {
+            let rsInput = document.getElementById('rsNumber').value.trim();
+
+            if (!rsInput) {
+                alert('Please enter an RS number.');
+                return;
+            }
+
+            // Remove 'rs' prefix if present and convert to number
+            let rsNumOnly = rsInput.toLowerCase().replace(/^rs/, '');
+
+            // Validate that the remaining part is numeric
+            if (!/^\d+$/.test(rsNumOnly)) {
+                alert('Please enter a valid RS number (e.g., rs13343).');
+                return;
+            }
+
+            // Convert to number
+            const rsNum = parseInt(rsNumOnly);
+
+            // Calculate file number using the formula
+            const quotient = Math.floor(rsNum / 50000);
+            const fileNumber = (quotient + 1) * 50000;
+
+            // Show loading, hide results and error
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+
+            // Construct the URL
+            const url = `main/seQTL/${fileNumber}.json`;
+
+            // Fetch the data
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('File not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Find the specific RS entry
+                    const rsEntry = data.find(entry => entry.rsid.toLowerCase() === `rs${rsNumOnly}`.toLowerCase());
+
+                    if (!rsEntry) {
+                        throw new Error('RS number not found in file');
+                    }
+
+                    displayData(rsEntry);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('results').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').style.display = 'block';
+                });
+        }
+
+        function displayData(data) {
+            // Set RS header in format: rsid (chr:pos) on gsym (gid)
+            const rsHeader = `${data.rsid} (${data.chr}:${data.pos}) on ${data.gsym} (${data.gid})`;
+            document.getElementById('rsHeader').textContent = rsHeader;
+
+            // Display data availability
+            const availabilityDiv = document.getElementById('availability');
+            availabilityDiv.innerHTML = '';
+
+            // Extract dtype information
+            const dtypeData = data.dtype[0];
+
+            // Define all possible data types
+            const populations = ['CEU', 'YRI', 'CHB', 'JPT'];
+
+            // Create availability indicators
+            populations.forEach(pop => {
+                const value = dtypeData[pop] === true || dtypeData[pop] === 1;
+                const availabilityItem = document.createElement('div');
+                availabilityItem.className = 'availability-item';
+
+                const icon = value ?
+                    '<i class="fa fa-check check"></i>' :
+                    '<i class="fa fa-times cross"></i>';
+
+                availabilityItem.innerHTML = `${pop} ${icon}`;
+                availabilityDiv.appendChild(availabilityItem);
+            });
+
+            // Process Tgene data
+            const tgeneData = data.Tgene || [];
+            const tgeneTableBody = document.getElementById('tgeneTable').getElementsByTagName('tbody')[0];
+            tgeneTableBody.innerHTML = '';
+
+            tgeneData.forEach(gene => {
+                const row = document.createElement('tr');
+
+                // Gene symbol with NCBI link
+                const symbolCell = document.createElement('td');
+                symbolCell.innerHTML = `<a href="https://www.ncbi.nlm.nih.gov/gene/${gene.Tgid}" target="_blank">${gene.Tgsym}</a>`;
+                row.appendChild(symbolCell);
+
+                // Population data cells
+                ['CEU', 'CHB', 'JPT', 'YRI'].forEach(pop => {
+                    const cell = document.createElement('td');
+                    if (gene[pop] === 1) {
+                        cell.innerHTML = '<i class="fa fa-check check"></i>';
+                    }
+                    row.appendChild(cell);
+                });
+
+                tgeneTableBody.appendChild(row);
+            });
+
+            // Update Tgene count
+            document.getElementById('tgeneCount').textContent = tgeneData.length;
+
+            // Open details if less than 10 items
+            if (tgeneData.length <= 10) {
+                document.getElementById('tgeneDetails').open = true;
+            }
+        }
+    </script>
+</body>
+
+</html>
