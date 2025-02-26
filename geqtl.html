@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gene Search</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .check-icon {
+            color: green;
+        }
+
+        .remove-icon {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Gene Search</h1>
+    <input type="text" id="searchInput" placeholder="Enter Gene Symbol (gsym) or Gene ID (gid)">
+    <button onclick="searchGene()">Search</button>
+
+    <h2>Data Availability</h2>
+    <div id="dataAvailability"></div>
+
+    <h2>Sgene</h2>
+    <table id="SgeneTable">
+        <thead>
+            <tr>
+                <th>Sgsym</th>
+                <th>Sgid</th>
+                <th>CEU</th>
+                <th>CHB</th>
+                <th>JPT</th>
+                <th>YRI</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Tgene</h2>
+    <table id="TgeneTable">
+        <thead>
+            <tr>
+                <th>Tgsym</th>
+                <th>Tgid</th>
+                <th>CEU</th>
+                <th>CHB</th>
+                <th>JPT</th>
+                <th>YRI</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const data = {
+            "2'-PDE": {
+                "gsym": ["2'-PDE"],
+                "gid": [201626],
+                "dtype": [[{ "GE": 1, "IG.YRI": 1 }]],
+                "Sgene": [[
+                    { "Sgsym": "AADACL3", "Sgid": 126767, "CEU": 0, "CHB": 1, "JPT": 0, "YRI": 0 },
+                    { "Sgsym": "AGT", "Sgid": 183, "CEU": 0, "CHB": 0, "JPT": 0, "YRI": 1 }
+                ]],
+                "Tgene": [[
+                    { "Tgsym": "B3GALNT1", "Tgid": 8706, "CEU": 0, "CHB": 0, "JPT": 0, "YRI": 1 },
+                    { "Tgsym": "C19orf6", "Tgid": 91304, "CEU": 0, "CHB": 0, "JPT": 0, "YRI": 1 }
+                ]]
+            }
+        };
+
+        function searchGene() {
+            const searchValue = document.getElementById('searchInput').value.trim();
+            const geneData = Object.values(data).find(d => d.gsym.includes(searchValue) || d.gid.includes(parseInt(searchValue)));
+
+            if (!geneData) {
+                alert('Gene not found.');
+                return;
+            }
+
+            // Populate Data Availability
+            const dataAvailability = document.getElementById('dataAvailability');
+            dataAvailability.innerHTML = `
+                GE: <i class="fa ${geneData.dtype[0][0].GE ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i><br>
+                IG (CEU): <i class="fa ${geneData.dtype[0][0]['IG.CEU'] ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i><br>
+                IG (YRI): <i class="fa ${geneData.dtype[0][0]['IG.YRI'] ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i><br>
+                IG (CHB): <i class="fa ${geneData.dtype[0][0]['IG.CHB'] ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i><br>
+                IG (JPT): <i class="fa ${geneData.dtype[0][0]['IG.JPT'] ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i>
+            `;
+
+            // Populate Sgene Table
+            const sgeneTableBody = document.getElementById('SgeneTable').querySelector('tbody');
+            sgeneTableBody.innerHTML = '';
+            geneData.Sgene[0].forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.Sgsym}</td>
+                    <td>${row.Sgid}</td>
+                    <td><i class="fa ${row.CEU ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                    <td><i class="fa ${row.CHB ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                    <td><i class="fa ${row.JPT ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                    <td><i class="fa ${row.YRI ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                `;
+                sgeneTableBody.appendChild(tr);
+            });
+
+            // Populate Tgene Table
+            const tgeneTableBody = document.getElementById('TgeneTable').querySelector('tbody');
+            tgeneTableBody.innerHTML = '';
+            geneData.Tgene[0].forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.Tgsym}</td>
+                    <td>${row.Tgid}</td>
+                    <td><i class="fa ${row.CEU ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                    <td><i class="fa ${row.CHB ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                    <td><i class="fa ${row.JPT ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                    <td><i class="fa ${row.YRI ? 'fa-check check-icon' : 'fa-remove remove-icon'}"></i></td>
+                `;
+                tgeneTableBody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>
