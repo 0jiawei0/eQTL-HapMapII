@@ -129,7 +129,7 @@
     <p>Enter an RS number to search for its information.</p>
 
     <div class="search-container">
-        <input type="text" id="rsNumber" placeholder="Enter RS number (e.g., rs13343)">
+        <input type="text" id="rsNumber" placeholder="Enter RS number (e.g., rs74)">
         <button onclick="searchRS()">Search</button>
     </div>
 
@@ -170,7 +170,7 @@
     </div>
 
     <script>
-        function searchRS() {
+        async function searchRS() {
             let rsInput = document.getElementById('rsNumber').value.trim();
 
             if (!rsInput) {
@@ -178,55 +178,59 @@
                 return;
             }
 
-            // Remove 'rs' prefix if present and convert to number
-            let rsNumOnly = rsInput.toLowerCase().replace(/^rs/, '');
-
-            // Validate that the remaining part is numeric
-            if (!/^\d+$/.test(rsNumOnly)) {
-                alert('Please enter a valid RS number (e.g., rs13343).');
-                return;
+            // Make sure the input has the 'rs' prefix
+            if (!rsInput.toLowerCase().startsWith('rs')) {
+                rsInput = 'rs' + rsInput;
             }
-
-            // Convert to number
-            const rsNum = parseInt(rsNumOnly);
-
-            // Calculate file number using the formula
-            const quotient = Math.floor(rsNum / 50000);
-            const fileNumber = (quotient + 1) * 50000;
 
             // Show loading, hide results and error
             document.getElementById('loading').style.display = 'block';
             document.getElementById('results').style.display = 'none';
             document.getElementById('error').style.display = 'none';
 
-            // Construct the URL
-            const url = `https://raw.githubusercontent.com/0jiawei0/eQTL-HapMapII/refs/heads/main/seQTL/${fileNumber}.json`;
+            try {
+                // First fetch the index file
+                const indexResponse = await fetch('main/seQTL/index.json');
+                if (!indexResponse.ok) {
+                    throw new Error('Index file not found');
+                }
 
-            // Fetch the data
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('File not found');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Find the specific RS entry
-                    const rsEntry = data.find(entry => entry.rsid.toLowerCase() === `rs${rsNumOnly}`.toLowerCase());
+                const indexData = await indexResponse.json();
 
-                    if (!rsEntry) {
-                        throw new Error('RS number not found in file');
-                    }
+                // Find the RS entry in the index
+                const indexEntry = indexData.find(entry => entry.rsid.toLowerCase() === rsInput.toLowerCase());
 
-                    displayData(rsEntry);
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('results').style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('error').style.display = 'block';
-                });
+                if (!indexEntry) {
+                    throw new Error('RS number not found in index');
+                }
+
+                // Get the filename from the index entry
+                const fileName = indexEntry.fname;
+
+                // Now fetch the actual data file
+                const dataResponse = await fetch(`main/seQTL/${fileName}.json`);
+                if (!dataResponse.ok) {
+                    throw new Error('Data file not found');
+                }
+
+                const dataFile = await dataResponse.json();
+
+                // Find the specific RS entry in the data file
+                const rsEntry = dataFile.find(entry => entry.rsid.toLowerCase() === rsInput.toLowerCase());
+
+                if (!rsEntry) {
+                    throw new Error('RS number not found in data file');
+                }
+
+                displayData(rsEntry);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+            }
         }
 
         function displayData(data) {
