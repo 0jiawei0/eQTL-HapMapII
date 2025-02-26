@@ -204,7 +204,7 @@
             document.getElementById('error').style.display = 'none';
 
             // Construct the URL
-            const url = `main/geqtl/${encodeURIComponent(geneSymbol)}.json`;
+            const url = `https://raw.githubusercontent.com/0jiawei0/eQTL-HapMapII/refs/heads/main/geqtl/${encodeURIComponent(geneSymbol)}.json`;
 
             // Fetch the data
             fetch(url)
